@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <package name="struts" extends="struts-default">
+        <interceptors>
+            <interceptor name="loginInterceptor" class="com.wuyong.web.LoginInterceptor"></interceptor>
+        </interceptors>
+        <global-results>
+            <result name="login" >/mgr_login.jsp</result>
+        </global-results>
+        <action name="location_*" class="locationAction" method="{1}">
+            <result name="left">/WEB-INF/mgr/mgr_left.jsp</result>
+            <result name="top">/WEB-INF/mgr/mgr_top.jsp</result>
+            <result name="addArticle">/WEB-INF/mgr/mgr_add_article.jsp</result>
+<!--            <result name="account">/WEB-INF/mgr/mgr_account.jsp</result>-->
+            <allowed-methods>left,top,addArticle</allowed-methods>
+        </action>
+
+        <!--spring 当中的id-->
+<!--        loginAction_login.action-->
+        <action name="loginAction_*" class="loginAction" method="{1}">
+            <result name="success">/WEB-INF/mgr/mgr_index.jsp</result>
+            <result name="login_out" type="redirect">/mgr_login.jsp</result>
+            <interceptor-ref name="loginInterceptor">
+                <param name="excludeMethods">login</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <allowed-methods>login,loginout</allowed-methods>
+        </action>
+<!--        分类的action-->
+        <action name="category_*" class="categoryAction" method="{1}">
+            <result name="list">/WEB-INF/mgr/mgr_category.jsp</result>
+            <result name="listAction" type="redirectAction">category_list.action</result>
+            <interceptor-ref name="loginInterceptor"></interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <allowed-methods>add,list,updateUI,update,delete</allowed-methods>
+        </action>
+<!--        文章的action-->
+        <action name="article_*" class="articleAction" method="{1}">
+            <result name="list">/WEB-INF/mgr/mgr_main.jsp</result>
+            <result name="edit">/WEB-INF/mgr/mgr_edit_article.jsp</result>
+            <result name="listres" type="redirectAction">article_pageList.action</result>
+            <interceptor-ref name="loginInterceptor">
+                <param name="excludeMethods">getCategory</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <allowed-methods>list,pageList,delete,getCategory,add,edit,update</allowed-methods>
+        </action>
+
+        <action name="web_*" class="webAction" method="{1}">
+            <allowed-methods>getPageList,getDetail</allowed-methods>
+        </action>
+<!--        账户action-->
+        <action name="account_*" class="accountAction" method="{1}">
+            <result name="list">WEB-INF/mgr/mgr_account.jsp</result>
+            <result name="listAction" type="redirectAction">account_list.action</result>
+            <allowed-methods>list,add,delete,update</allowed-methods>
+        </action>
+    </package>
+
+</struts>

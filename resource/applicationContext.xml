@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+
+    <!--导入hibernate相关配置-->
+    <import resource="hibernateApplication.xml"/>
+    <bean id="loginAction" class="com.wuyong.web.LoginAction" scope="prototype">
+        <property name="loginService" ref="loginService"></property>
+    </bean>
+    <bean id="loginService" class="com.wuyong.service.impl.LoginServiceImpl">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="userDao" class="com.wuyong.dao.impl.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="categoryAction" class="com.wuyong.web.CategoryAction" scope="prototype">
+        <property name="categoryService" ref="categoryService"/>
+    </bean>
+    <bean id="categoryService" class="com.wuyong.service.impl.CategoryServiceImpl">
+        <property name="categoryDao" ref="categoryDao"/>
+    </bean>
+    <bean id="categoryDao" class="com.wuyong.dao.impl.CategoryDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+<!--    文章-->
+    <bean id="articleAction" class="com.wuyong.web.ArticleAction" scope="prototype">
+        <property name="articleService" ref="articleService"/>
+    </bean>
+    <bean id="articleService" class="com.wuyong.service.impl.ArticleServiceImpl">
+        <property name="articleDao" ref="articleDao"/>
+    </bean>
+    <bean id="articleDao" class="com.wuyong.dao.impl.ArticleDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="locationAction" class="com.wuyong.web.locationAction" scope="prototype"/>
+    <bean id="webAction" class="com.wuyong.web.WebAction" scope="prototype">
+        <property name="articleService" ref="articleService"/>
+    </bean>
+
+    <bean id="accountAction" class="com.wuyong.web.AccountAction" scope="prototype">
+        <property name="accountService" ref="accountService"/>
+    </bean>
+    <bean id="accountService" class="com.wuyong.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+    <bean id="accountDao" class="com.wuyong.dao.impl.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>
